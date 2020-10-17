@@ -37,7 +37,6 @@
       var obniz = new Obniz("OBNIZ_ID_HERE");
 
       obniz.onconnect = async function() {
-        //var led = obniz.wired("LED", { anode: 0, cathode: 1 });
         var light = obniz.wired("Keyestudio_TrafficLight", {gnd:0, green:1, yellow:2, red:3});
 
         obniz.display.clear();
