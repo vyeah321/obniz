@@ -1,0 +1,79 @@
+<!-- HTML Example -->
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/starter-sample.css">
+  <script src="https://obniz.com/js/jquery-3.2.1.min.js"></script>
+  <script src="https://unpkg.com/obniz@3.3.0/obniz.js"></script>
+</head>
+<body>
+
+<div id="obniz-debug"></div>
+
+<!--文字の表示-->
+<div class="wrap">
+  <div class="print">
+    <h3 class="text-center">Print words on obniz</h3>
+    <div>
+      <input type="text" id="text" value="Hello World" placeholder="Input in freely">
+      <button class="btn btn-primary" id="showtime">Print on obniz</button>
+    </div>
+  </div>
+
+<!--ダイヤルスイッチの状態を表示-->
+  <div class="switch">
+    <h3 class="text-center"> Swtich </h3>
+    <span id="print">undefined</span>
+  </div>
+
+<!--LEDのON/OFFボタン-->
+  <div class="led">
+    <h3 class="text-center">Turning on a LED</h3>
+    <button class="btn btn-primary" id="on">LED ON</button>
+    <button class="btn btn-outline-primary" id="off">LED OFF</button>
+    <dl>
+      <dt>Demo Pin assign</dt>
+      <dd>- io0:LED anode</dd>
+      <dd>- io1:LED cthode</dd>
+      <dd>- Switch state will be printed on browser</dd>
+    </dl>
+  </div>
+
+</div>
+
+<script>
+  var obniz = new Obniz("OBNIZ_ID_HERE");
+  obniz.onconnect = async function () {
+    var led = obniz.wired("LED", {anode: 0, cathode: 1});
+    obniz.display.clear();
+    obniz.display.print("Hello World");
+
+    obniz.switch.onchange = function (state) {
+      $('#print').text(state);
+      obniz.display.clear();
+      obniz.display.print(state);
+    };
+
+    $("#showtime").on("click", function () {
+      obniz.display.clear();
+      obniz.display.print($("#text").val());
+    });
+
+    $('#on').click(function () {
+      led.on();
+      obniz.display.clear();
+      obniz.display.print("ON");
+    });
+
+    $('#off').click(function () {
+      led.off();
+      obniz.display.clear();
+      obniz.display.print("OFF");
+    });
+  };
+</script>
+</body>
+</html>
